@@ -1,17 +1,23 @@
-import mysql from "mysql2/promise";
+import { Sequelize } from "sequelize";
 
-export let connection;
+export const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+        host: process.env.DB_HOST,
+        dialect: "mysql",
+    }
+);
 
 export const connectDb = async () => {
     try {
-        connection = await mysql.createConnection({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            database: process.env.DB_NAME
-        });
+        await sequelize.authenticate();
+        console.log("Conectado a la base de datos ");
 
-        console.log("Base de datos conectada");
+        await sequelize.sync();
+        console.log("Tablas sincronizadas");
     } catch (error) {
-        console.error("No se pudo conectar a la base de datos:", error);
+        console.error("Error en DB:", error);
     }
 };
