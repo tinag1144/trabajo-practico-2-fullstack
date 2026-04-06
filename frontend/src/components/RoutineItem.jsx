@@ -2,56 +2,61 @@ import { useState } from "react";
 
 const RoutineItem = ({ routine, onDelete, onUpdate }) => {
   const [editing, setEditing] = useState(false);
-  const [newSubject, setNewSubject] = useState(routine.subject);
+  const [editData, setEditData] = useState({
+    subject: routine.subject,
+    hours: routine.hours,
+    priority: routine.priority
+  });
 
   const handleUpdate = () => {
     onUpdate(routine.id, {
-      ...routine,
-      subject: newSubject,
+      ...editData,
+      hours: Number(editData.hours)
     });
     setEditing(false);
   };
 
   return (
-    <div className="card">
+    <div className={`card item-card priority-${routine.priority}`}>
       {editing ? (
-        <>
+        <div className="edit-mode">
           <input
-            value={newSubject}
-            onChange={(e) => setNewSubject(e.target.value)}
+            value={editData.subject}
+            onChange={(e) => setEditData({...editData, subject: e.target.value})}
           />
           <div className="row">
-            <button className="btn-primary" onClick={handleUpdate}>
-              Guardar
-            </button>
-            <button
-              className="btn-secondary"
-              onClick={() => setEditing(false)}
+            <input
+              type="number"
+              value={editData.hours}
+              onChange={(e) => setEditData({...editData, hours: e.target.value})}
+            />
+            <select 
+              value={editData.priority}
+              onChange={(e) => setEditData({...editData, priority: e.target.value})}
             >
-              Cancelar
-            </button>
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
           </div>
-        </>
+          <div className="row">
+            <button className="btn-primary" onClick={handleUpdate}>Guardar</button>
+            <button className="btn-secondary" onClick={() => setEditing(false)}>Cancelar</button>
+          </div>
+        </div>
       ) : (
         <>
-          <h3>{routine.subject}</h3>
-          <p>⏱ {routine.hours} hs</p>
-          <p>⭐ {routine.priority || "sin prioridad"}</p>
+          <div className="info">
+            <h3>{routine.subject}</h3>
+            <div className="badges">
+              <span>⏱ {routine.hours} hs</span>
+              <span className="tag">⭐ {routine.priority || "sin prioridad"}</span>
+            </div>
+          </div>
 
           <div className="row">
-            <button
-              className="btn-secondary"
-              onClick={() => setEditing(true)}
-            >
-              Editar
-            </button>
-
-            <button
-              className="btn-danger"
-              onClick={() => onDelete(routine.id)}
-            >
-              Eliminar
-            </button>
+            <button className="btn-secondary" onClick={() => setEditing(true)}>Editar</button>
+            <button className="btn-danger" onClick={() => onDelete(routine.id)}>Eliminar</button>
           </div>
         </>
       )}

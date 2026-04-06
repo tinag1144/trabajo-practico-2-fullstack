@@ -1,79 +1,280 @@
-body {
+/* =========================================
+   1. Importación de Tipografía (Moderna)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* =========================================
+   2. Variables de Color y Estilo (Tu Paleta Mejorada)
+   ========================================= */
+:root {
+  --primary-pink: #ff8fab; /* El rosa principal */
+  --primary-dark: #ff6f91; /* Rosa para hovers */
+  --bg-color: #fff0f5; /* Rosa muy pálido de fondo */
+  --card-bg: #ffffff;
+  --text-main: #4a4a4a; /* Gris oscuro para texto */
+  --text-secondary: #7e7e7e; /* Gris medio */
+  --border-color: #ffe4ec;
+  --shadow-soft: 0 10px 25px rgba(255, 143, 171, 0.15); /* Sombra rosada suave */
+  --shadow-hover: 0 15px 35px rgba(255, 143, 171, 0.25);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* =========================================
+   3. Reseteo y Estilos Base
+   ========================================= */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #ffe4ec, #fff0f5);
+  padding: 0;
 }
 
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* =========================================
+   4. Contenedor Principal
+   ========================================= */
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Espaciado uniforme entre elementos */
 }
 
+/* =========================================
+   5. Título y Estados (Cargando, Vacío)
+   ========================================= */
 .title {
   text-align: center;
-  color: #ff6f91;
+  color: var(--primary-dark);
+  font-size: 2.8rem;
   font-weight: 700;
-}
-
-.card {
-  background: #ffffffcc;
-  backdrop-filter: blur(10px);
-  border-radius: 18px;
-  padding: 15px;
-  margin-top: 15px;
-  box-shadow: 0 8px 20px rgba(255, 143, 171, 0.15);
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid #ffd6e0;
-  outline: none;
   margin-bottom: 10px;
-  transition: 0.2s;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
 }
 
-input:focus {
-  border-color: #ff8fab;
-  box-shadow: 0 0 5px #ff8fab55;
-}
-
-button {
-  border: none;
-  border-radius: 12px;
-  padding: 8px 12px;
-  cursor: pointer;
+.status-msg, .empty {
+  text-align: center;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-soft);
   font-weight: 500;
 }
 
+.error-msg {
+  text-align: center;
+  color: #ff4d4d;
+  background: #fff5f5;
+  padding: 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid #ffcccc;
+  font-weight: 600;
+}
+
+/* =========================================
+   6. Elementos Comunes (Inputs, Selects, Botones)
+   ========================================= */
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-pink);
+  box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.1);
+}
+
+input::placeholder {
+  color: #c0c0c0;
+}
+
+button {
+  font-family: var(--font-family);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:active {
+  transform: scale(0.97); /* Efecto de click */
+}
+
+/* =========================================
+   7. Estilos de Botones Específicos
+   ========================================= */
 .btn-primary {
-  background: #ff8fab;
+  background-color: var(--primary-pink);
   color: white;
+  padding: 14px 25px;
+  border-radius: 50px; /* Botón ovalado moderno */
+  font-size: 1.1rem;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
 }
 
 .btn-primary:hover {
-  background: #ff6f91;
-}
-
-.btn-danger {
-  background: #ffc2d1;
-  color: #b00040;
+  background-color: var(--primary-dark);
+  box-shadow: 0 7px 20px rgba(255, 143, 171, 0.4);
 }
 
 .btn-secondary {
-  background: #f1f1f1;
+  background-color: #f0f0f0;
+  color: var(--text-main);
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
 }
 
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-danger {
+  background-color: #ffeded;
+  color: #ff4d4d;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+
+.btn-danger:hover {
+  background-color: #ffcccc;
+}
+
+/* =========================================
+   8. Componente: SearchBar
+   ========================================= */
+.search-container {
+  width: 100%;
+}
+
+.search-container input {
+  box-shadow: var(--shadow-soft);
+  border: none; /* Diseño más limpio para búsqueda */
+  font-size: 1.1rem;
+}
+
+/* =========================================
+   9. Componente: RoutineForm (Card de agregar)
+   ========================================= */
+.form-container {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Diseño en fila para inputs cortos */
 .row {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.empty {
-  text-align: center;
-  color: #999;
-  margin-top: 20px;
+@media (max-width: 500px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
+/* =========================================
+   10. Componente: RoutineItem (Las tarjetas)
+   ========================================= */
+.routine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  padding: 20px 25px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-color);
+}
+
+/* Contenido de la tarjeta */
+.card h3 {
+  color: var(--primary-dark);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.badges {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.badges span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Etiqueta de prioridad (Tag) */
+.tag {
+  background-color: var(--bg-color);
+  color: var(--primary-dark);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+}
+
+/* Contenedor de botones en la tarjeta */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+/* Estilos para el modo edición dentro de la tarjeta */
+.edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
