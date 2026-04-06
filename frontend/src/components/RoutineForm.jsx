@@ -20,26 +20,31 @@ const RoutineForm = ({ onCreate }) => {
   };
 
   return (
-    <form className="card" onSubmit={handleSubmit}>
-      <input
-        placeholder="Materia"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Horas"
-        value={hours}
-        onChange={(e) => setHours(e.target.value)}
-      />
-      <input
-        placeholder="Prioridad"
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-      />
+  <form className="card" onSubmit={handleSubmit}>
+  <div className="row">
+    <input
+      placeholder="Materia"
+      value={subject}
+      onChange={(e) => setSubject(e.target.value)}
+    />
+    <input
+      type="number"
+      placeholder="Horas"
+      value={hours}
+      onChange={(e) => setHours(e.target.value)}
+    />
+  </div>
 
-      <button type="submit">Agregar 💕</button>
-    </form>
+  <input
+    placeholder="Prioridad (alta, media, baja)"
+    value={priority}
+    onChange={(e) => setPriority(e.target.value)}
+  />
+
+  <button className="btn-primary" type="submit">
+    + Agregar rutina
+  </button>
+</form>
   );
 };
 

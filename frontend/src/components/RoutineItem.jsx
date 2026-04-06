@@ -20,16 +20,39 @@ const RoutineItem = ({ routine, onDelete, onUpdate }) => {
             value={newSubject}
             onChange={(e) => setNewSubject(e.target.value)}
           />
-          <button onClick={handleUpdate}>Guardar 💖</button>
+          <div className="row">
+            <button className="btn-primary" onClick={handleUpdate}>
+              Guardar
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => setEditing(false)}
+            >
+              Cancelar
+            </button>
+          </div>
         </>
       ) : (
         <>
           <h3>{routine.subject}</h3>
-          <p>⏱ {routine.hours} horas</p>
-          <p>⭐ {routine.priority}</p>
+          <p>⏱ {routine.hours} hs</p>
+          <p>⭐ {routine.priority || "sin prioridad"}</p>
 
-          <button onClick={() => setEditing(true)}>Editar</button>
-          <button onClick={() => onDelete(routine.id)}>Eliminar</button>
+          <div className="row">
+            <button
+              className="btn-secondary"
+              onClick={() => setEditing(true)}
+            >
+              Editar
+            </button>
+
+            <button
+              className="btn-danger"
+              onClick={() => onDelete(routine.id)}
+            >
+              Eliminar
+            </button>
+          </div>
         </>
       )}
     </div>

@@ -66,13 +66,17 @@ function App() {
 
   return (
     <div className="container">
-      <h1>🎀 Rutinas de Estudio 🎀</h1>
-
+      <h1 className="title">🎀 Study Planner 🎀</h1>
       <SearchBar onSearch={handleSearch} />
       <RoutineForm onCreate={createRoutine} />
 
       {loading && <p>Cargando...</p>}
       {error && <p>{error}</p>}
+
+
+    {filtered.length === 0 && !loading && (
+      <p className="empty">No hay rutinas todavía 💭</p>
+    )}
 
       <RoutineList
         routines={filtered}
