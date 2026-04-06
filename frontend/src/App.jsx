@@ -19,8 +19,10 @@ function App() {
       const data = await res.json();
       setRoutines(data);
       setFiltered(data);
-    } catch {
-      setError("Error al cargar 💔");
+      setError(null);
+    } catch (err) { // Definido correctamente aquí
+      setError("Error al cargar las rutinas 💔");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -31,30 +33,38 @@ function App() {
   }, []);
 
   const createRoutine = async (routine) => {
-    await fetch(API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(routine),
-    });
-    getRoutines();
+    try {
+      await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(routine),
+      });
+      await getRoutines();
+    } catch (err) { // Definido correctamente aquí
+      console.error("Error al crear:", err);
+    }
   };
 
   const deleteRoutine = async (id) => {
-    await fetch(`${API}/${id}`, { method: "DELETE" });
-    getRoutines();
+    try {
+      await fetch(`${API}/${id}`, { method: "DELETE" });
+      await getRoutines();
+    } catch (err) { // Definido correctamente aquí
+      console.error("Error al eliminar:", err);
+    }
   };
 
   const updateRoutine = async (id, data) => {
-    await fetch(`${API}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    getRoutines();
+    try {
+      await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      await getRoutines();
+    } catch (err) { // Definido correctamente aquí
+      console.error("Error al actualizar:", err);
+    }
   };
 
   const handleSearch = (text) => {
@@ -70,13 +80,12 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       <RoutineForm onCreate={createRoutine} />
 
-      {loading && <p>Cargando...</p>}
-      {error && <p>{error}</p>}
+      {loading && <p className="status-msg">Cargando...</p>}
+      {error && <p className="error-msg">{error}</p>}
 
-
-    {filtered.length === 0 && !loading && (
-      <p className="empty">No hay rutinas todavía 💭</p>
-    )}
+      {!loading && filtered.length === 0 && (
+        <p className="empty">No hay rutinas todavía 💭</p>
+      )}
 
       <RoutineList
         routines={filtered}
