@@ -21,6 +21,8 @@ export const RoutineProvider = ({ children }) => {
     initialState
   );
 
+
+
 // trae todas las rutinas desde el backend
   const getRoutines = async () => {
     dispatch({ type: "SET_LOADING" });
@@ -45,6 +47,24 @@ export const RoutineProvider = ({ children }) => {
     }
   };
 
+  const createRoutine = async (routine) => {
+  try {
+    await fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(routine)
+    });
+
+    // vuelvo a pedir datos actualizados
+    getRoutines();
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   // apenas carga la app trae las rutinas
   useEffect(() => {
     getRoutines();
@@ -54,7 +74,8 @@ export const RoutineProvider = ({ children }) => {
     <RoutineContext.Provider
       value={{
         ...state,
-        getRoutines
+        getRoutines,
+        createRoutine
       }}
     >
       {children}
