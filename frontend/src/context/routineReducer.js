@@ -43,6 +43,47 @@ export const routineReducer = (state, action) => {
         )
       };
 
+      case "SET_LOADING":
+      return {
+        ...state,
+        loading: true
+      };
+
+    case "GET_ROUTINES":
+      return {
+        ...state,
+
+        // guardo rutinas originales
+        routines: action.payload,
+
+        // filtered arranca mostrando todo
+        filtered: action.payload,
+
+        loading: false,
+        error: null
+      };
+
+    case "SET_ERROR":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+
+    case "SEARCH_ROUTINE":
+      return {
+        ...state,
+
+        // filtro por nombre de materia
+        filtered: state.routines.filter((routine) =>
+          routine.subject
+            .toLowerCase()
+            .includes(
+              action.payload.toLowerCase()
+            )
+        )
+      };
+      
     default:
       // si llega una acción que no existe
       // simplemente devuelve el estado actual sin cambios
