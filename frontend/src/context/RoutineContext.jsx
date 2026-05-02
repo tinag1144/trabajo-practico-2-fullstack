@@ -65,6 +65,43 @@ export const RoutineProvider = ({ children }) => {
   }
 };
 
+const deleteRoutine = async (id) => {
+  try {
+    await fetch(`${API}/${id}`, {
+      method: "DELETE"
+    });
+
+    getRoutines();
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateRoutine = async (id, data) => {
+  try {
+    await fetch(`${API}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    getRoutines();
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleSearch = (text) => {
+  dispatch({
+    type: "SEARCH_ROUTINE",
+    payload: text
+  });
+};
+
   // apenas carga la app trae las rutinas
   useEffect(() => {
     getRoutines();
@@ -75,7 +112,10 @@ export const RoutineProvider = ({ children }) => {
       value={{
         ...state,
         getRoutines,
-        createRoutine
+        createRoutine,
+        deleteRoutine,
+        updateRoutine,
+        handleSearch
       }}
     >
       {children}
