@@ -1,11 +1,16 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { routineReducer } from "./routineReducer";
 
 // creo el contexto global
 const RoutineContext = createContext();
 
+const API = "http://localhost:3000/api/routines";
+
 const initialState = {
-  routines: []
+  routines: [],
+  filtered: [],
+  loading: false,
+  error: null
 };
 
 export const RoutineProvider = ({ children }) => {
@@ -16,8 +21,42 @@ export const RoutineProvider = ({ children }) => {
     initialState
   );
 
+// trae todas las rutinas desde el backend
+  const getRoutines = async () => {
+    dispatch({ type: "SET_LOADING" });
+
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+
+      dispatch({
+        type: "GET_ROUTINES",
+        payload: data
+      });
+
+    } catch (error) {
+        console.error(error);
+        
+      dispatch({
+        type: "SET_ERROR",
+        payload: "Error al cargar rutinas"
+
+      });
+    }
+  };
+
+  // apenas carga la app trae las rutinas
+  useEffect(() => {
+    getRoutines();
+  }, []);
+
   return (
-    <RoutineContext.Provider value={{ state, dispatch }}>
+    <RoutineContext.Provider
+      value={{
+        ...state,
+        getRoutines
+      }}
+    >
       {children}
     </RoutineContext.Provider>
   );
