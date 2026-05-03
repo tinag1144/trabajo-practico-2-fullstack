@@ -1,21 +1,32 @@
 import { useState } from "react";
+import { useRoutineContext } from "../context/useRoutineContext";
 
-const RoutineForm = ({ onCreate }) => {
+const RoutineForm = () => {
+
+   // sigo usando useState porque esto es estado LOCAL del formulario
+  // solo guarda temporalmente lo que el usuario escribe
   const [subject, setSubject] = useState("");
   const [hours, setHours] = useState("");
   const [priority, setPriority] = useState("");
+
+  // ahora traigo createRoutine desde el context global
+  const { createRoutine } = useRoutineContext();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Validación simple antes de enviar
     if (!subject || !hours || !priority) return;
 
-    onCreate({
+    // ahora en vez de llamar props
+    // llamo directamente la función global
+    createRoutine({
       subject,
       hours: Number(hours),
       priority,
     });
 
+    // limpio formulario después de guardar 
     setSubject("");
     setHours("");
     setPriority("");

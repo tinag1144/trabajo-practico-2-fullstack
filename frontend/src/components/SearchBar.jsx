@@ -1,9 +1,13 @@
-const SearchBar = ({ onSearch }) => {
+import { useRoutineContext } from "../context/useRoutineContext";
+
+const SearchBar = () => {
+
+   const { handleSearch } = useRoutineContext(); 
   return (
     <input
       className="card"
       placeholder="🔍 Buscar materia..."
-      onChange={(e) => onSearch(e.target.value)}
+      onChange={(e) => handleSearch(e.target.value)}
     />
   );
 };

@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useRoutineContext } from "../context/useRoutineContext";
 
-const RoutineItem = ({ routine, onDelete, onUpdate }) => {
+const RoutineItem = ({ routine }) => {
+   const { deleteRoutine, updateRoutine } = useRoutineContext();
+
   const [editing, setEditing] = useState(false);
+
   const [editData, setEditData] = useState({
     subject: routine.subject,
     hours: routine.hours,
@@ -9,12 +13,16 @@ const RoutineItem = ({ routine, onDelete, onUpdate }) => {
   });
 
   const handleUpdate = () => {
-    onUpdate(routine.id, {
+
+    // mando al backend los datos actualizados
+    updateRoutine(routine.id, {
       ...editData,
       hours: Number(editData.hours)
     });
+
     setEditing(false);
   };
+
 
   return (
     <div className={`card item-card priority-${routine.priority}`}>
@@ -56,7 +64,7 @@ const RoutineItem = ({ routine, onDelete, onUpdate }) => {
 
           <div className="row">
             <button className="btn-secondary" onClick={() => setEditing(true)}>Editar</button>
-            <button className="btn-danger" onClick={() => onDelete(routine.id)}>Eliminar</button>
+            <button className="btn-danger" onClick={() => deleteRoutine(routine.id)}>Eliminar</button>
           </div>
         </>
       )}
