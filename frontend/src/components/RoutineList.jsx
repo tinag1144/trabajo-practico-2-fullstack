@@ -1,14 +1,18 @@
 import RoutineItem from "./RoutineItem";
+import { useRoutineContext } from "../context/useRoutineContext";
 
-const RoutineList = ({ routines, onDelete, onUpdate }) => {
+const RoutineList = () => {
+  // traigo las rutinas filtradas desde el estado global
+  const { filtered } = useRoutineContext();
+
+
   return (
     <div>
-      {routines.map((r) => (
+       {/* recorro las rutinas filtradas */}
+      {filtered.map((r) => (
         <RoutineItem
           key={r.id}
           routine={r}
-          onDelete={onDelete}
-          onUpdate={onUpdate}
         />
       ))}
     </div>
