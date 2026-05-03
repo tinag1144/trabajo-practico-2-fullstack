@@ -67,11 +67,17 @@ export const RoutineProvider = ({ children }) => {
 
 const deleteRoutine = async (id) => {
   try {
-    await fetch(`${API}/${id}`, {
+    const res = await fetch(`${API}/${id}`, {
       method: "DELETE"
     });
 
-    getRoutines();
+     // si backend devuelve error corto acá
+    if (!res.ok) {
+      throw new Error("Error al eliminar rutina");
+    }
+
+    // recién si salió bien vuelvo a cargar
+    await getRoutines();
 
   } catch (error) {
     console.log(error);
