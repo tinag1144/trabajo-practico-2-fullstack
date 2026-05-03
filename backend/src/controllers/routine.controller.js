@@ -110,8 +110,9 @@ export const deleteRoutine = async (req, res) => {
             message: "Rutina eliminada"
         });
     } catch (error) {
-        res.status(500).json({
-            message: "Error al eliminar"
-        });
-    }
-};
+    console.error("Error real al eliminar:", error);
+
+    res.status(500).json({
+        message: "Error al eliminar"
+    });
+}}
