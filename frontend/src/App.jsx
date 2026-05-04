@@ -1,6 +1,7 @@
 import RoutineForm from "./components/RoutineForm";
 import RoutineList from "./components/RoutineList";
 import SearchBar from "./components/SearchBar";
+import { useMemo } from "react";
 import "./index.css";
 
 import { useRoutineContext } from "./context/useRoutineContext";
