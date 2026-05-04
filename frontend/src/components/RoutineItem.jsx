@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRoutineContext } from "../context/useRoutineContext";
+
 
 const RoutineItem = ({ routine }) => {
    const { deleteRoutine, updateRoutine } = useRoutineContext();
@@ -72,4 +73,11 @@ const RoutineItem = ({ routine }) => {
   );
 };
 
-export default RoutineItem;
+export default memo(RoutineItem); 
+// memo evita que este componente se renderice otra vez
+// si la rutina recibida no cambió
+
+// Si busco algo o cambia a otro estado:
+// React revisa si routine cambió.
+// Si no cambió:
+// NO vuelve a renderizar esa card.
