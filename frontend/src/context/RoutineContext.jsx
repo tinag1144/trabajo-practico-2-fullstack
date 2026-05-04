@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useCallback } from "react";
 import { routineReducer } from "./routineReducer";
 
 // creo el contexto global
@@ -24,7 +24,10 @@ export const RoutineProvider = ({ children }) => {
 
 
 // trae todas las rutinas desde el backend
-  const getRoutines = async () => {
+
+  // useCallback evita que esta función se cree otra vez
+// cada vez que el componente renderiza
+const getRoutines = useCallback(async () => {
     dispatch({ type: "SET_LOADING" });
 
     try {
@@ -45,9 +48,12 @@ export const RoutineProvider = ({ children }) => {
 
       });
     }
-  };
+  }, []);
 
-  const createRoutine = async (routine) => {
+
+ // useCallback guarda esta función en memoria
+// así no se vuelve a crear en cada render
+const createRoutine = useCallback(async (routine) => {
   try {
     await fetch(API, {
       method: "POST",
@@ -63,9 +69,11 @@ export const RoutineProvider = ({ children }) => {
   } catch (error) {
     console.log(error);
   }
-};
+}, [getRoutines]);
 
-const deleteRoutine = async (id) => {
+
+// evita recrear esta función cada render
+const deleteRoutine = useCallback(async (id) => {
   try {
     const res = await fetch(`${API}/${id}`, {
       method: "DELETE"
@@ -82,9 +90,11 @@ const deleteRoutine = async (id) => {
   } catch (error) {
     console.log(error);
   }
-};
+}, [getRoutines]);
 
-const updateRoutine = async (id, data) => {
+
+// reutiliza esta función mientras getRoutines no cambie
+const updateRoutine = useCallback(async (id, data) => {
   try {
     await fetch(`${API}/${id}`, {
       method: "PUT",
@@ -99,19 +109,21 @@ const updateRoutine = async (id, data) => {
   } catch (error) {
     console.log(error);
   }
-};
+}, [getRoutines]);
 
-const handleSearch = (text) => {
+// esta función también se pasa a componentes hijos
+// por eso la optimizamos
+const handleSearch = useCallback((text) => {
   dispatch({
     type: "SEARCH_ROUTINE",
     payload: text
   });
-};
+}, []);
 
   // apenas carga la app trae las rutinas
   useEffect(() => {
     getRoutines();
-  }, []);
+  }, [getRoutines]);
 
   return (
     <RoutineContext.Provider
@@ -131,5 +143,9 @@ const handleSearch = (text) => {
 
 export default RoutineContext;
 
+
+// useCallback en getRoutines: Evita recrear la función que trae datos.
+// useCallback en create/update/delete: Evita recrear funciones CRUD.
+// useCallback en search: Evita recrear la función de búsqueda.
 
 //acá lo que hago es crear el "contendedor global", se supone que antes las rutinas vivian en el App con el useState, ahora van a vivir acá 
